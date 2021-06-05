@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 
 const useToggle = (defaultValue = false) => {
     const [isEnabled, setIsEnabled] = useState(defaultValue)
 
-    const toggle = () => setIsEnabled((value) => !value)
+    const toggle = useCallback(() => setIsEnabled((value) => !value), [])
 
-    return [isEnabled, toggle]
+    return [isEnabled, toggle, setIsEnabled]
 }
 
 export default useToggle

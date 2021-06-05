@@ -8,7 +8,7 @@ const LineItem = ({ item }) => {
 
     return (
         <div className="">
-            <div className="px-8 py-3 flex justify-between items-center hover:bg-gray-200">
+            <div className="px-8 py-3 text-lg flex justify-between items-center hover:bg-gray-200">
                 {item.label}
                 {size(item.children) > 0 && (
                     <img
@@ -37,9 +37,9 @@ const LineItem = ({ item }) => {
 const Navigation = ({ folders }) => {
     return (
         <>
-            <p className="px-8 pt-8 pb-3 text-gray-400 uppercase font-bold">root</p>
-            {map(folders, (f) => (
-                <LineItem item={f} />
+            <p className="px-8 pt-8 pb-3 text-sm text-gray-400 uppercase font-bold">root</p>
+            {map(folders, (f, index) => (
+                <LineItem item={f} key={index} />
             ))}
         </>
     )
