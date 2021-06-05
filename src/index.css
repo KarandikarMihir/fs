@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply relative min-h-full w-full m-0 p-0;
+  }
+
+  *, *:before, *:after {
+    @apply m-0 p-0 select-none box-border;
+  }
+
+  body {
+    @apply h-full w-full;
+    @apply bg-white text-gray-900;
+  }
+
+  h1 {
+    @apply text-5xl leading-relaxed;
+  }
+  h2 {
+    @apply text-4xl leading-relaxed;
+  }
+  h3 {
+    @apply text-3xl leading-relaxed leading-relaxed;
+  }
+  h4 {
+    @apply text-2xl leading-normal;
+  }
+  h5 {
+    @apply text-xl leading-normal;
+  }
+  h6 {
+    @apply text-lg leading-normal;
+  }
+  p {
+    @apply text-base mb-2 leading-relaxed;
+  }
+}
