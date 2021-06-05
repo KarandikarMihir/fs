@@ -41,7 +41,7 @@ const ContextMenu = ({ coordinates }) => {
                 </p>
             ))}
         </div>,
-        document.getElementById('context-menu'),
+        document.getElementById('context-menu-container'),
     )
 }
 

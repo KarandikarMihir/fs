@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Navigation from 'components/Navigation'
 import FilesAndFolders from 'components/FilesAndFolders'
 import ContextMenu from 'components/ContextMenu'
+import FileInfoModal from 'components/FileInfoModal'
+import CreateNewModal from 'components/CreateNewModal/CreateNewModal'
 import tree from './data'
 
 const App = () => {
@@ -15,6 +17,8 @@ const App = () => {
                 <FilesAndFolders folders={tree} setCoordinates={setCoordinates} />
             </div>
             <ContextMenu coordinates={coordinates} />
+            <FileInfoModal />
+            {/* <CreateNewModal /> */}
         </div>
     )
 }
