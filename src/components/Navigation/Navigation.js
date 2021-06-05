@@ -25,7 +25,7 @@ const LineItem = ({ item }) => {
                 <div className="px-8">
                     <div className="border-l-2 border-gray-200">
                         {map(item.children, (c) => (
-                            <div className="pl-5 py-2 hover:bg-gray-200">{c.label}</div>
+                            <div className="pl-5 py-2 hover:bg-gray-200">{c.name}</div>
                         ))}
                     </div>
                 </div>
