@@ -9,7 +9,7 @@ const LineItem = ({ item }) => {
     return (
         <div className="">
             <div className="px-8 py-3 text-lg flex justify-between items-center hover:bg-gray-200">
-                {item.label}
+                {item.name}
                 {size(item.children) > 0 && (
                     <img
                         src="/icons/dropdown.svg"

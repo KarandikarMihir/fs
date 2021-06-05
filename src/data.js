@@ -1,32 +1,32 @@
 const tree = [
     {
-        label: 'Songs',
+        name: 'Songs',
         isDirectory: true,
         children: [],
     },
     {
-        label: 'Movies',
+        name: 'Movies',
         isDirectory: true,
         children: [
             {
-                label: 'Inception',
+                name: 'Inception',
                 isDirectory: true,
                 children: [
                     {
-                        label: 'index.html',
+                        name: 'index.html',
                         isDirectory: false,
                     },
                     {
-                        label: 'index.js',
+                        name: 'index.js',
                         isDirectory: false,
                     },
                     {
-                        label: 'Assets',
+                        name: 'Assets',
                         isDirectory: true,
                         children: [],
                     },
                     {
-                        label: 'Config',
+                        name: 'Config',
                         isDirectory: true,
                         children: [],
                     },
@@ -35,33 +35,33 @@ const tree = [
         ],
     },
     {
-        label: 'Videos',
+        name: 'Videos',
         isDirectory: true,
         children: [],
     },
     {
-        label: 'My Test Folder',
+        name: 'My Test Folder',
         isDirectory: true,
         children: [
             {
-                label: 'Recordings',
+                name: 'Recordings',
                 isDirectory: true,
                 children: [],
             },
             {
-                label: 'Designs',
+                name: 'Designs',
                 isDirectory: true,
                 children: [],
             },
             {
-                label: 'Projects',
+                name: 'Projects',
                 isDirectory: true,
                 children: [],
             },
         ],
     },
     {
-        label: 'Screenshots',
+        name: 'Screenshots',
         isDirectory: true,
         children: [],
     },

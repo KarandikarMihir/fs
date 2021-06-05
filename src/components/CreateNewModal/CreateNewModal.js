@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import Modal from 'components/Modal'
+import eventBus, { OPEN_MODAL, modalTypes } from 'eventBus'
 
 const SegmentedControl = () => {
     return (
@@ -26,10 +29,27 @@ const Button = () => {
 }
 
 const CreateNewModal = () => {
+    const [isVisible, setVisibility] = useState(false)
+    useEffect(() => {
+        const open = (payload) => {
+            if (payload.type === modalTypes.CREATE_NEW_MODAL) {
+                setVisibility(true)
+            } else {
+                setVisibility(false)
+            }
+        }
+
+        eventBus.on(OPEN_MODAL, open)
+
+        return () => eventBus.off(OPEN_MODAL, open)
+    }, [])
+
+    if (!isVisible) {
+        return null
+    }
+
     return createPortal(
-        <div className="fixed left-[40%] top-[20%] bg-white p-8 z-50 rounded-lg border border-gray-100 shadow-lg w-[400px]">
-            <img src="/icons/close.svg" alt="close" className="right-[30px] top-[30px] absolute cursor-pointer" />
-            <p className="text-2xl text-center">Create New</p>
+        <Modal title="Create New" onClose={() => setVisibility(false)}>
             <SegmentedControl />
             <div className="mt-5 px-5">
                 <Input />
@@ -38,7 +58,7 @@ const CreateNewModal = () => {
                 <Input />
                 <Button />
             </div>
-        </div>,
+        </Modal>,
         document.getElementById('app-modal-container'),
     )
 }

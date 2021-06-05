@@ -1,0 +1,7 @@
+export const modalTypes = {
+    FILE_INFO_MODAL: 'FILE_INFO_MODAL',
+    CREATE_NEW_MODAL: 'CREATE_NEW_MODAL',
+}
+
+export const OPEN_MODAL = 'OPEN_MODAL'
+export const OPEN_CONTEXT_MENU = 'OPEN_CONTEXT_MENU'

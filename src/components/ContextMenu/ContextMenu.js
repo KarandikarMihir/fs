@@ -1,31 +1,38 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import map from 'lodash/map'
 import cx from 'classnames'
 import { createPortal } from 'react-dom'
-import useToggle from 'hooks/useToggle'
+import eventBus, { OPEN_MODAL, OPEN_CONTEXT_MENU, modalTypes } from 'eventBus'
 
 const ACTIONS = ['Open', 'Get Info', 'Delete']
 
-const ContextMenu = ({ coordinates }) => {
+const ContextMenu = () => {
     const ref = useRef()
-    const [isVisible, toggle] = useToggle()
+    const [isVisible, setVisibility] = useState(false)
+    const [coordinates, setCoordinates] = useState()
 
     useEffect(() => {
-        const clickListener = (e) => {
+        const open = (e) => {
+            setVisibility(true)
+            setCoordinates(e)
+        }
+
+        const handleClick = (e) => {
             if (ref.current && !ref.current.contains(e.target)) {
-                toggle()
+                setVisibility(false)
+                setCoordinates()
             }
         }
-        window.document.addEventListener('click', clickListener)
+
+        eventBus.on(OPEN_CONTEXT_MENU, open)
+
+        window.document.addEventListener('click', handleClick)
 
         return () => {
-            window.document.removeEventListener('click', clickListener)
+            eventBus.off(OPEN_CONTEXT_MENU, open)
+            window.document.removeEventListener('click', handleClick)
         }
-    }, [toggle])
-
-    useEffect(() => {
-        toggle()
-    }, [coordinates, toggle])
+    }, [setVisibility])
 
     const className = cx('fixed w-[150px] bg-white border border-gray-200 rounded-xl shadow-lg z-50', {
         hidden: !isVisible,
@@ -35,6 +42,12 @@ const ContextMenu = ({ coordinates }) => {
         <div ref={ref} className={className} style={{ left: coordinates?.x, top: coordinates?.y }}>
             {map(ACTIONS, (a) => (
                 <p
+                    onClick={() => {
+                        eventBus.emit(OPEN_MODAL, {
+                            type: modalTypes.FILE_INFO_MODAL,
+                            payload: {},
+                        })
+                    }}
                     key={a}
                     className="px-6 py-3 m-0 hover:bg-gray-100 first:rounded-t-xl last:rounded-b-xl cursor-pointer">
                     {a}
