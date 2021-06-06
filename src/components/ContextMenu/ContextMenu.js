@@ -4,8 +4,6 @@ import cx from 'classnames'
 import { createPortal } from 'react-dom'
 import eventBus, { OPEN_MODAL, OPEN_CONTEXT_MENU, modalTypes } from 'eventBus'
 
-const ACTIONS = ['Open', 'Get Info', 'Delete']
-
 const ContextMenu = () => {
     const ref = useRef()
     const [isVisible, setVisibility] = useState(false)
@@ -38,19 +36,40 @@ const ContextMenu = () => {
         hidden: !isVisible,
     })
 
+    const actions = [
+        {
+            label: 'Open',
+            onClick: () => {},
+        },
+        {
+            label: 'Get Info',
+            onClick: () => {
+                eventBus.emit(OPEN_MODAL, {
+                    type: modalTypes.FILE_INFO_MODAL,
+                })
+            },
+        },
+        {
+            label: 'Delete',
+            className: 'text-red-500',
+            onClick: () => {},
+        },
+    ]
+
     return createPortal(
         <div ref={ref} className={className} style={{ left: coordinates?.x, top: coordinates?.y }}>
-            {map(ACTIONS, (a) => (
+            {map(actions, (a) => (
                 <p
                     onClick={() => {
-                        eventBus.emit(OPEN_MODAL, {
-                            type: modalTypes.FILE_INFO_MODAL,
-                            payload: {},
-                        })
+                        setVisibility(false)
+                        a.onClick()
                     }}
-                    key={a}
-                    className="px-6 py-3 m-0 hover:bg-gray-100 first:rounded-t-xl last:rounded-b-xl cursor-pointer">
-                    {a}
+                    key={a.label}
+                    className={cx(
+                        a.className,
+                        'px-6 py-3 m-0 hover:bg-gray-100 first:rounded-t-xl last:rounded-b-xl cursor-pointer',
+                    )}>
+                    {a.label}
                 </p>
             ))}
         </div>,
