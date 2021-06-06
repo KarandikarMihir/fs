@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import map from 'lodash/map'
+import capitalize from 'lodash/capitalize'
 import eventBus, { OPEN_MODAL, modalTypes } from 'eventBus'
 import Modal from 'components/Modal'
 import { useApplicationContext } from 'components/ApplicationContext'
@@ -9,7 +10,7 @@ const LineItem = ({ label, value }) => {
     return (
         <div className="flex my-2">
             <div className="flex-1">
-                <p className="text-xl text-right">{label}:</p>
+                <p className="text-xl text-right">{capitalize(label)}:</p>
             </div>
             <div className="pl-2 flex-1">
                 <p className="text-xl text-gray-400">{value}</p>
@@ -40,14 +41,14 @@ const FileInfoModal = () => {
         return null
     }
 
-    const icon = state.selectedFile.isDirectory ? 'folder' : 'file'
+    const icon = state.selectedFile.meta.isDirectory ? 'folder' : 'file'
 
     return createPortal(
         <Modal title="File Info" onClose={() => setVisibility(false)}>
             <p className="text-center py-8">
                 <img src={`/icons/${icon}.png`} alt="file" className="inline" />
             </p>
-            {map(state.selectedFile, (value, key) => (
+            {map(state.selectedFile.public, (value, key) => (
                 <LineItem key={key} value={value} label={key} />
             ))}
         </Modal>,

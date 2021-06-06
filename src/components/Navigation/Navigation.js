@@ -9,8 +9,8 @@ const LineItem = ({ item }) => {
     return (
         <div className="">
             <div className="px-8 py-3 text-lg flex justify-between items-center hover:bg-gray-200">
-                {item.name}
-                {size(item.children) > 0 && (
+                {item.public.name}
+                {size(item.meta.children) > 0 && (
                     <img
                         src="/icons/dropdown.svg"
                         alt="dropdown"
@@ -24,8 +24,10 @@ const LineItem = ({ item }) => {
             {isExpanded && (
                 <div className="px-8">
                     <div className="border-l-2 border-gray-200">
-                        {map(item.children, (c) => (
-                            <div className="pl-5 py-2 hover:bg-gray-200">{c.name}</div>
+                        {map(item.meta.children, (c) => (
+                            <div key={c.public.name} className="pl-5 py-2 hover:bg-gray-200">
+                                {c.public.name}
+                            </div>
                         ))}
                     </div>
                 </div>

@@ -3,11 +3,13 @@ import map from 'lodash/map'
 import cx from 'classnames'
 import { createPortal } from 'react-dom'
 import eventBus, { OPEN_MODAL, OPEN_CONTEXT_MENU, modalTypes } from 'eventBus'
+import { useApplicationContext } from 'components/ApplicationContext'
 
 const ContextMenu = () => {
     const ref = useRef()
     const [isVisible, setVisibility] = useState(false)
     const [coordinates, setCoordinates] = useState()
+    const { state, actions } = useApplicationContext()
 
     useEffect(() => {
         const open = (e) => {
@@ -36,10 +38,15 @@ const ContextMenu = () => {
         hidden: !isVisible,
     })
 
-    const actions = [
+    const menuOptions = [
         {
             label: 'Open',
-            onClick: () => {},
+            onClick: (e) => {
+                const { selectedFile } = state
+                if (selectedFile.meta.isDirectory) {
+                    actions.openFolder(state.selectedFile)
+                }
+            },
         },
         {
             label: 'Get Info',
@@ -58,11 +65,11 @@ const ContextMenu = () => {
 
     return createPortal(
         <div ref={ref} className={className} style={{ left: coordinates?.x, top: coordinates?.y }}>
-            {map(actions, (a) => (
+            {map(menuOptions, (a) => (
                 <p
-                    onClick={() => {
+                    onClick={(e) => {
                         setVisibility(false)
-                        a.onClick()
+                        a.onClick(e)
                     }}
                     key={a.label}
                     className={cx(

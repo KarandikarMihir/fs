@@ -8,7 +8,10 @@ const File = ({ attributes }) => {
     const ref = useRef()
     const [isSelected, setSelected] = useState(false)
     const { actions } = useApplicationContext()
-    const { name, isDirectory } = attributes
+    const {
+        public: { name },
+        meta: { isDirectory },
+    } = attributes
 
     const icon = isDirectory ? 'folder' : 'file'
     const className = cx(
