@@ -65,6 +65,10 @@ const tree = [
         isDirectory: true,
         children: [],
     },
+    {
+        name: 'index.html',
+        isDirectory: false,
+    },
 ]
 
 export default tree

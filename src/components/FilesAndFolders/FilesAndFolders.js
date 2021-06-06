@@ -12,12 +12,12 @@ const FilesAndFolders = ({ folders }) => {
                 <Breadcrumbs />
                 <Search />
             </div>
-            <div className="flex flex-wrap items-center mt-8">
+            <div className="flex flex-wrap items-end mt-8">
                 {map(folders, (f, index) => (
                     <File key={index} {...f} />
                 ))}
                 <div
-                    className="border-dashed border-4 m-6 rounded-2xl border-gray-200 w-[110px] h-[125px] flex items-center justify-center cursor-pointer"
+                    className="border-dashed self-center m-4 border-4 rounded-2xl border-gray-200 w-[110px] h-[125px] flex items-center justify-center cursor-pointer"
                     onClick={openCreateModal}>
                     <h1 className="text-gray-300 font-bold">{'+'}</h1>
                 </div>

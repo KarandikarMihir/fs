@@ -7,7 +7,7 @@ const File = ({ name, size, creatorName, createdDate, isDirectory }) => {
     const [isSelected, setSelected] = useState(false)
     const icon = isDirectory ? 'folder' : 'file'
     const className = cx(
-        'w-[120px] flex items-center justify-center flex-col mr-6 my-6 p-4 rounded-xl cursor-pointer',
+        'w-[120px] flex items-center justify-center m-4 py-4 px-2 flex-col rounded-xl cursor-pointer transition-all',
         {
             'bg-[#E6F5FF]': isSelected,
         },
@@ -30,15 +30,18 @@ const File = ({ name, size, creatorName, createdDate, isDirectory }) => {
             ref={ref}
             className={className}
             onClick={() => setSelected(true)}
+            title={name}
             onContextMenu={(e) => {
                 e.preventDefault()
                 eventBus.emit(OPEN_CONTEXT_MENU, { x: e.clientX, y: e.clientY })
                 setSelected(true)
             }}>
-            <img src={`/icons/${icon}.png`} alt="file-icon" className="w-[70px] inline" />
-            <p className="w-full text-center truncate mt-3" title={name}>
-                {name}
-            </p>
+            <img
+                src={`/icons/${icon}.png`}
+                alt="file-icon"
+                className={cx({ 'w-[70px]': isDirectory, 'w-[45px]': !isDirectory }, 'inline')}
+            />
+            <p className="w-full text-center truncate mt-3">{name}</p>
         </div>
     )
 }
