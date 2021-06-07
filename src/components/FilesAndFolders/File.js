@@ -35,9 +35,13 @@ const File = ({ attributes }) => {
 
     const extension = !isDirectory && split(name, '.')[1]
 
-    const handleOnClick = () => {
+    const handleOnClick = (e) => {
         setSelected(true)
         actions.setSelectedFile(attributes)
+
+        if (e.detail === 2 && isDirectory) {
+            actions.openFolder(attributes)
+        }
     }
 
     return (
@@ -49,7 +53,7 @@ const File = ({ attributes }) => {
             onContextMenu={(e) => {
                 e.preventDefault()
                 eventBus.emit(OPEN_CONTEXT_MENU, { x: e.clientX, y: e.clientY })
-                handleOnClick()
+                handleOnClick(e)
             }}>
             <div className="relative">
                 <img

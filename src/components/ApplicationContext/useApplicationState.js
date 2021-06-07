@@ -1,13 +1,36 @@
 import { useReducer, useMemo } from 'react'
+import dropRight from 'lodash/dropRight'
+import concat from 'lodash/concat'
+import size from 'lodash/size'
+import data from 'data'
 
-const initialState = {
+const getInitialState = (tree) => ({
+    tree,
     selectedFile: null,
     pwdPath: [],
-}
+})
 
 const SET_SELECTED_FILE = 'SET_SELECTED_FILE'
 const OPEN_FOLDER = 'OPEN_FOLDER'
 const CLOSE_FOLDER = 'CLOSE_FOLDER'
+const DELETE_FILE = 'DELETE_FILE'
+
+const softDeleteFile = (tree, id) => {
+    if (!size(tree)) {
+        return tree
+    }
+
+    for (let index = 0; index < tree.length; index++) {
+        if (tree[index].meta.id === id) {
+            tree[index].meta.isDeleted = true
+        }
+        if (tree[index].meta.isDirectory) {
+            softDeleteFile(tree[index].meta.children, id)
+        }
+    }
+
+    return tree
+}
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -19,19 +42,22 @@ const reducer = (state, action) => {
         }
         case OPEN_FOLDER: {
             const { pwdPath } = state
-            pwdPath.push(action.payload)
-            console.log('pwdPath', pwdPath)
             return {
                 ...state,
-                pwdPath,
+                pwdPath: concat(pwdPath, action.payload),
             }
         }
         case CLOSE_FOLDER: {
             const { pwdPath } = state
-            pwdPath.pop()
             return {
                 ...state,
-                pwdPath,
+                pwdPath: dropRight(pwdPath),
+            }
+        }
+        case DELETE_FILE: {
+            return {
+                ...state,
+                tree: softDeleteFile(state.tree, action.payload),
             }
         }
         default: {
@@ -41,7 +67,7 @@ const reducer = (state, action) => {
 }
 
 const useApplicationState = () => {
-    const [state, dispatch] = useReducer(reducer, initialState)
+    const [state, dispatch] = useReducer(reducer, getInitialState(data))
 
     return useMemo(
         () => ({
@@ -60,6 +86,11 @@ const useApplicationState = () => {
                 closeFolder: () =>
                     dispatch({
                         type: CLOSE_FOLDER,
+                    }),
+                deleteFile: (payload) =>
+                    dispatch({
+                        type: DELETE_FILE,
+                        payload,
                     }),
             },
         }),

@@ -60,26 +60,32 @@ const ContextMenu = () => {
         {
             label: 'Delete',
             className: 'text-red-500',
-            onClick: () => {},
+            onClick: () => actions.deleteFile(state.selectedFile.meta.id),
         },
     ]
 
     return createPortal(
         <div ref={ref} className={className} style={{ left: coordinates?.x, top: coordinates?.y }}>
-            {map(menuOptions, (a) => (
-                <p
-                    onClick={(e) => {
-                        setVisibility(false)
-                        a.onClick(e)
-                    }}
-                    key={a.label}
-                    className={cx(
-                        a.className,
-                        'px-6 py-3 m-0 hover:bg-gray-100 first:rounded-t-xl last:rounded-b-xl cursor-pointer',
-                    )}>
-                    {a.label}
-                </p>
-            ))}
+            {map(menuOptions, (a) => {
+                if (!state.selectedFile?.meta?.isDirectory && a.label === 'Open') {
+                    return null
+                }
+
+                return (
+                    <p
+                        onClick={(e) => {
+                            setVisibility(false)
+                            a.onClick(e)
+                        }}
+                        key={a.label}
+                        className={cx(
+                            a.className,
+                            'px-6 py-3 m-0 hover:bg-gray-100 first:rounded-t-xl last:rounded-b-xl cursor-pointer',
+                        )}>
+                        {a.label}
+                    </p>
+                )
+            })}
         </div>,
         document.getElementById('context-menu-container'),
     )
