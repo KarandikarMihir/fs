@@ -14,7 +14,7 @@ const App = () => {
                     <Navigation folders={tree} />
                 </div>
                 <div className="flex-1 px-12 py-8">
-                    <FilesAndFolders folders={tree} />
+                    <FilesAndFolders />
                 </div>
                 <ContextMenu />
                 <FileInfoModal />

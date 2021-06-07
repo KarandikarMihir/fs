@@ -1,36 +1,23 @@
 import { useReducer, useMemo } from 'react'
 import dropRight from 'lodash/dropRight'
 import concat from 'lodash/concat'
-import size from 'lodash/size'
 import data from 'data'
+import { softDeleteFile, createFile } from './utils'
 
 const getInitialState = (tree) => ({
     tree,
     selectedFile: null,
     pwdPath: [],
+    searchKey: '',
 })
 
 const SET_SELECTED_FILE = 'SET_SELECTED_FILE'
+const SET_PWD = 'SET_PWD'
 const OPEN_FOLDER = 'OPEN_FOLDER'
 const CLOSE_FOLDER = 'CLOSE_FOLDER'
 const DELETE_FILE = 'DELETE_FILE'
-
-const softDeleteFile = (tree, id) => {
-    if (!size(tree)) {
-        return tree
-    }
-
-    for (let index = 0; index < tree.length; index++) {
-        if (tree[index].meta.id === id) {
-            tree[index].meta.isDeleted = true
-        }
-        if (tree[index].meta.isDirectory) {
-            softDeleteFile(tree[index].meta.children, id)
-        }
-    }
-
-    return tree
-}
+const CREATE_FILE = 'CREATE_FILE'
+const SET_SEARCH_KEY = 'SET_SEARCH_KEY'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -38,6 +25,12 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 selectedFile: action.payload,
+            }
+        }
+        case SET_PWD: {
+            return {
+                ...state,
+                pwdPath: action.payload,
             }
         }
         case OPEN_FOLDER: {
@@ -60,6 +53,18 @@ const reducer = (state, action) => {
                 tree: softDeleteFile(state.tree, action.payload),
             }
         }
+        case CREATE_FILE: {
+            return {
+                ...state,
+                tree: createFile(state.tree, action.payload),
+            }
+        }
+        case SET_SEARCH_KEY: {
+            return {
+                ...state,
+                searchKey: action.payload,
+            }
+        }
         default: {
             return state
         }
@@ -78,6 +83,11 @@ const useApplicationState = () => {
                         type: SET_SELECTED_FILE,
                         payload,
                     }),
+                setPwd: (payload) =>
+                    dispatch({
+                        type: SET_PWD,
+                        payload,
+                    }),
                 openFolder: (payload) =>
                     dispatch({
                         type: OPEN_FOLDER,
@@ -90,6 +100,16 @@ const useApplicationState = () => {
                 deleteFile: (payload) =>
                     dispatch({
                         type: DELETE_FILE,
+                        payload,
+                    }),
+                createFile: (payload) =>
+                    dispatch({
+                        type: CREATE_FILE,
+                        payload,
+                    }),
+                setSearchKey: (payload) =>
+                    dispatch({
+                        type: SET_SEARCH_KEY,
                         payload,
                     }),
             },
