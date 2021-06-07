@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import map from 'lodash/map'
 import cx from 'classnames'
 import { createPortal } from 'react-dom'
 import eventBus, { OPEN_MODAL, OPEN_CONTEXT_MENU, modalTypes } from 'eventBus'
 import { useApplicationContext } from 'components/ApplicationContext'
+import useMountEffect from 'hooks/useMountEffect'
 
 const ContextMenu = () => {
     const ref = useRef()
@@ -11,7 +12,7 @@ const ContextMenu = () => {
     const [coordinates, setCoordinates] = useState()
     const { state, actions } = useApplicationContext()
 
-    useEffect(() => {
+    useMountEffect(() => {
         const open = (e) => {
             setVisibility(true)
             setCoordinates(e)
@@ -32,7 +33,7 @@ const ContextMenu = () => {
             eventBus.off(OPEN_CONTEXT_MENU, open)
             window.document.removeEventListener('click', handleClick)
         }
-    }, [setVisibility])
+    })
 
     const className = cx('fixed w-[150px] bg-white border border-gray-200 rounded-xl shadow-lg z-50', {
         hidden: !isVisible,

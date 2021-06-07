@@ -31,7 +31,7 @@ const File = ({ attributes }) => {
         window.document.addEventListener('click', handleClick)
 
         return () => window.document.removeEventListener('click', handleClick)
-    })
+    }, [ref, isSelected, setSelected])
 
     const extension = !isDirectory && split(name, '.')[1]
 

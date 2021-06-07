@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import map from 'lodash/map'
 import capitalize from 'lodash/capitalize'
 import eventBus, { OPEN_MODAL, modalTypes } from 'eventBus'
 import Modal from 'components/Modal'
 import { useApplicationContext } from 'components/ApplicationContext'
+import useMountEffect from 'hooks/useMountEffect'
 
 const LineItem = ({ label, value }) => {
     return (
@@ -23,7 +24,7 @@ const FileInfoModal = () => {
     const [isVisible, setVisibility] = useState(false)
     const { state } = useApplicationContext()
 
-    useEffect(() => {
+    useMountEffect(() => {
         const open = (payload) => {
             if (payload.type === modalTypes.FILE_INFO_MODAL) {
                 setVisibility(true)
@@ -35,7 +36,7 @@ const FileInfoModal = () => {
         eventBus.on(OPEN_MODAL, open)
 
         return () => eventBus.off(OPEN_MODAL, open)
-    }, [])
+    })
 
     if (!isVisible) {
         return null

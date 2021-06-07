@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import Modal from 'components/Modal'
 import eventBus, { OPEN_MODAL, modalTypes } from 'eventBus'
+import useMountEffect from 'hooks/useMountEffect'
 
 const SegmentedControl = () => {
     return (
@@ -30,7 +31,8 @@ const Button = () => {
 
 const CreateNewModal = () => {
     const [isVisible, setVisibility] = useState(false)
-    useEffect(() => {
+
+    useMountEffect(() => {
         const open = (payload) => {
             if (payload.type === modalTypes.CREATE_NEW_MODAL) {
                 setVisibility(true)
@@ -42,7 +44,7 @@ const CreateNewModal = () => {
         eventBus.on(OPEN_MODAL, open)
 
         return () => eventBus.off(OPEN_MODAL, open)
-    }, [])
+    })
 
     if (!isVisible) {
         return null
