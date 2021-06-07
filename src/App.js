@@ -19,6 +19,11 @@ const App = () => {
                 <ContextMenu />
                 <FileInfoModal />
                 <CreateNewModal />
+                <p className="fixed bottom-[10px] right-[20px]">
+                    <a href="https://github.com/KarandikarMihir/fs" target="_blank" rel="noreferrer">
+                        {'View Source on Github'}
+                    </a>
+                </p>
             </div>
         </ApplicationContextProvider>
     )
