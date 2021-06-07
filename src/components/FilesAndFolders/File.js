@@ -61,7 +61,7 @@ const File = ({ attributes }) => {
                     alt="file-icon"
                     className={cx({ 'w-[70px]': isDirectory, 'w-[45px]': !isDirectory }, 'inline')}
                 />
-                {extension && <span className="absolute text-white bottom-[20px]">{extension}</span>}
+                {extension && <span className="absolute text-xs text-white bottom-[5px] left-[5px]">.{extension}</span>}
             </div>
             <p className="w-full text-center truncate mt-3">{name}</p>
         </div>

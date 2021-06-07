@@ -59,6 +59,7 @@ export const createFile = (tree, payload) => {
             tree[index].meta.children.push(newFile)
             break
         }
+
         if (tree[index].meta.isDirectory) {
             createFile(tree[index].meta.children, payload)
         }

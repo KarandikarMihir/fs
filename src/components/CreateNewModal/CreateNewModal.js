@@ -90,12 +90,14 @@ const CreateNewModal = () => {
     }
 
     const handleOnChange = (e) => setFieldData({ ...fields, [e.target.name]: e.target.value })
+
     const handleOnSubmit = () => {
         actions.createFile({
             ...fields,
             isDirectory,
             parentId: last(state.pwdPath)?.meta?.id,
         })
+        setVisibility(false)
     }
 
     return createPortal(

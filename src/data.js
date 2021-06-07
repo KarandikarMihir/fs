@@ -151,6 +151,4 @@ const assignIds = (tree, parentId) => {
 
 assignIds(tree, null)
 
-console.log('allFolders', tree)
-
 export default tree
